@@ -1,8 +1,15 @@
 import express from "express";
-import {  } from "../controllers/humanController.js";
+import { getFullUserData, getUserInfo, getUsersList, createUser, updateUserInfo, deleteUser } from "../controllers/humanController.js";
 
 const router = express.Router();
 
-// router.get("/", getAllNotes);
+router.get("/", getUsersList);
+router.get("/:pubid", getUserInfo);
+router.post("/:pubid", getFullUserData);
+
+// ADMIN ONLY
+router.post("/new-user", createUser);
+router.put("/:pubid", updateUserInfo); // USER can update their own data
+router.delete("/:id", deleteUser); // USER can delete their own data
 
 export default router;
