@@ -30,7 +30,7 @@ export const human = sequelize.define(
         allowNull: false,
         unique: true
     },
-    highestLevel: {
+    higestLevel: {
         type: DataTypes.INTEGER,
         allowNull: false
     },
@@ -47,6 +47,7 @@ export const human = sequelize.define(
     }
   },
   {
-    tableName: "Human"
+    tableName: "Human",
+    timestamps: false
   },
 );

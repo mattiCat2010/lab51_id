@@ -1,7 +1,7 @@
 import express from "express";
 import { dbConnect } from "./config/db.js";
 import instrumentRoutes from "./routes/instrumentRoutes.js";
-import humanRoutes from "./routes/humanRoutes.js";
+import humanRoutes/*, { debug }*/ from "./routes/humanRoutes.js";
 import materialsRoutes from "./routes/materialsRoutes.js";
 import projectRoutes from "./routes/projectRoutes.js";
 import storageRoutes from "./routes/storageRoutes.js";
@@ -11,6 +11,15 @@ const port = process.env.PORT || 4035
 const app = express();
 
 app.use(express.json())
+
+/* DEBUG MIDDLEWARE
+app.use((req, res, next) => {
+    console.log(req.headers)
+    console.log(req.body)
+    debug()
+    next()
+})
+*/
 
 app.use("/api/instruments", instrumentRoutes)
 

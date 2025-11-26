@@ -3,9 +3,15 @@ import { getFullUserData, getUserInfo, getUsersList, createUser, updateUserInfo,
 
 const router = express.Router();
 
+/* DEBUG FUNCTION
+export const debug = () => {
+    console.log("Debug")
+}
+*/
+
 router.get("/", getUsersList);
 router.get("/:pubid", getUserInfo);
-router.post("/:pubid", getFullUserData);
+// router.post("/:pubid", getFullUserData);
 
 // ADMIN ONLY
 router.post("/new-user", createUser);

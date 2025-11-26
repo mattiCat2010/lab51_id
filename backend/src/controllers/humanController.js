@@ -26,10 +26,16 @@ export const getFullUserData = async (req, res) => {
 }
 
 export const createUser = async (req, res) => {
+    console.log("function called")
     try {
-        
+        console.log("recived reqest")
+        const User = req.body;
+        const user = await human.create(User)
+        res.status(200).json(user)
+        console.log("reqest succesful")
     } catch (error) {
-        
+        res.status(500).json({ message: "internal server error" })
+        console.log("Error in createUser controller", error)
     }
 }
 
