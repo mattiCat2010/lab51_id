@@ -1,10 +1,11 @@
 import {Sequelize } from "sequelize";
 
-const sequelize = new Sequelize('lab51id_db', 'postgres', 'M4t_C4t#2010', {
+export const sequelize = new Sequelize('lab51id_db', 'postgres', 'M4t_C4t#2010', {
   host: 'localhost',
   port: '4468',
   dialect: "postgres"
 });
+
 export const dbConnect = async () => {
     try {
         sequelize.authenticate().then(
