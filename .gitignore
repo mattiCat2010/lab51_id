@@ -39,7 +39,6 @@ build/Release
 
 # Dependency directories
 node_modules/
-backend/node_modules/
 jspm_packages/
 
 # Snowpack dependency directory (https://snowpack.dev/)
@@ -82,6 +81,7 @@ out
 # Nuxt.js build / generate output
 .nuxt
 dist
+.output
 
 # Gatsby files
 .cache/
@@ -135,40 +135,7 @@ dist
 !.yarn/sdks
 !.yarn/versions
 
-# Vite logs files
+# Vite files
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
-
-.env
-.env.local
-.env.*.local
-
-# Node modules
-node_modules/
-
-# Logs
-logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# Build output
-dist/
-build/
-
-# Database files / local DB folders
-db/
-data/
-*.sqlite
-*.sqlite3
-*.db
-
-# OS / editor
-.DS_Store
-.vscode/
-.idea/
-
-# Ignore local env-specific files
-.env.development
-.env.production
+.vite/
