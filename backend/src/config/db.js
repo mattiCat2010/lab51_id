@@ -1,21 +1,16 @@
-import { Client } from "pg";
+import {Sequelize } from "sequelize";
 
-const dbConnection = new Client({
-    host: "localhost",
-    user: "postgres",
-    port: 4468,
-    password: "M4t_C4t#2010",
-    database: "lab51id_db"
-})
-
+const sequelize = new Sequelize('lab51id_db', 'postgres', 'M4t_C4t#2010', {
+  host: 'localhost',
+  port: '4468',
+  dialect: "postgres"
+});
 export const dbConnect = async () => {
     try {
-        dbConnection.connect().then(
-            console.log("DATABASE CONNECTED SUCCESFULLY")
-        )    
+        sequelize.authenticate().then(
+            console.log('DATABASE CONNECTED SUCCESFULLY')
+        )
     } catch (error) {
-        console.log("Error connecting to database", error)
-        process.exit(1)
+        console.error('Unable to connect to the database:', error);
     }
-    
 }
