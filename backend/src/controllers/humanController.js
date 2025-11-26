@@ -1,3 +1,6 @@
+import { human } from "../models/human";
+import {  } from "sequelize";
+
 export const getUserInfo = async (req, res) => {
     try {
         
