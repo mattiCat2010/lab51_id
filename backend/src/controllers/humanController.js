@@ -1,5 +1,5 @@
-import { human } from "../models/human";
-import {  } from "sequelize";
+import { human } from "../models/human.js";
+// import {  } from "sequelize";
 
 export const getUserInfo = async (req, res) => {
     try {
