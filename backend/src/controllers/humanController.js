@@ -49,7 +49,7 @@ export const createUser = async (req, res) => {
     try {
         console.log("recived reqest")
         const User = req.body;
-        const user = await Human.create(User)
+        const user = await Human.create(User, { fields: ['pubid', 'name', 'surname', 'departments', 'email', 'higestLevel', 'pswd'] })
         res.status(200).json(user)
         console.log("reqest succesful")
     } catch (error) {

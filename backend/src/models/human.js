@@ -9,7 +9,8 @@ export const Human = sequelize.define(
         type: DataTypes.INTEGER,
         allowNull: false,
         unique: true,
-        primaryKey: true
+        primaryKey: true,
+        autoIncrement: true
     },
     id: {
         type: DataTypes.UUID,
