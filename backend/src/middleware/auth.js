@@ -11,7 +11,7 @@ export async function authCheck(req, res, next) {
         })
 
         // DANGER DEBUG ONLY!!!
-        // console.log(user[0].dataValues.id)
+        // console.log(user[0].dataValues.id) Prints the user super seacret id, in the logs...
     }
     next();
 }
