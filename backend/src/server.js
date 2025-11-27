@@ -1,5 +1,6 @@
 import express from "express";
 import { dbConnect } from "./config/db.js";
+import { authCheck } from "./middleware/auth.js";
 import instrumentRoutes from "./routes/instrumentRoutes.js";
 import humanRoutes/*, { debug }*/ from "./routes/humanRoutes.js";
 import materialsRoutes from "./routes/materialsRoutes.js";
@@ -11,6 +12,7 @@ const port = process.env.PORT || 4035
 const app = express();
 
 app.use(express.json())
+app.use((req, res, next) => authCheck(req, res, next))
 
 /* DEBUG MIDDLEWARE
 app.use((req, res, next) => {
