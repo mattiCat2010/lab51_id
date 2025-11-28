@@ -1,4 +1,4 @@
-import { and } from "sequelize";
+import * as crypto from 'crypto';
 import { Human } from "../models/human.js";
 // import { Op } from "sequelize";
 
@@ -39,10 +39,10 @@ export const getUsersList = async (req, res) => {
 
 export const getFullUserData = async (req, res) => {
     try {
-        const { sid } = req.body;
+        const { pubid } = req.body.authUser; // fix code here
         const user = await Human.findAll({
             where: {
-                id: sid,
+                pubid: pubid,
             }
         })
         
@@ -57,7 +57,11 @@ export const getFullUserData = async (req, res) => {
 export const createUser = async (req, res) => {
     try {
         const User = req.body;
+
         if(User.higestLevel > 2 && !User.pswd) return res.status(406).json({ message: "Password required for level higher than 3" });
+
+        User.pubid = null;
+        User.id = crypto.randomUUID();
 
         const user = await Human.create(User)
         res.status(200).json(user)
