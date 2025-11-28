@@ -4,7 +4,6 @@ import { sequelize } from '../config/db.js';
 export const Human = sequelize.define(
   'human',
   {
-    // Model attributes are defined here
     pubid: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -52,3 +51,7 @@ export const Human = sequelize.define(
     timestamps: false
   },
 );
+
+// const sync = async () => { await Human.sync({force: true}) }
+
+// sync();

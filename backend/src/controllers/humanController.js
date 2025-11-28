@@ -1,3 +1,4 @@
+import { and } from "sequelize";
 import { Human } from "../models/human.js";
 // import { Op } from "sequelize";
 
@@ -38,20 +39,28 @@ export const getUsersList = async (req, res) => {
 
 export const getFullUserData = async (req, res) => {
     try {
+        const { sid } = req.body;
+        const user = await Human.findAll({
+            where: {
+                id: sid,
+            }
+        })
         
+        if(user) return res.status(200).json(user)
+        res.status(404).json({ message: "User not found" })
     } catch (error) {
-        
+        res.status(500).json({ message: "Internal Server Error" })
+        console.log("Error in getFullUSerData: ", error)
     }
 }
 
 export const createUser = async (req, res) => {
-    console.log("function called")
     try {
-        console.log("recived reqest")
         const User = req.body;
-        const user = await Human.create(User, { fields: ['pubid', 'name', 'surname', 'departments', 'email', 'higestLevel', 'pswd'] })
+        if(User.higestLevel > 2 && !User.pswd) return res.status(406).json({ message: "Password required for level higher than 3" });
+
+        const user = await Human.create(User)
         res.status(200).json(user)
-        console.log("reqest succesful")
     } catch (error) {
         res.status(500).json({ message: "internal server error" })
         console.log("Error in createUser controller", error)

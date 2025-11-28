@@ -11,7 +11,7 @@ export const debug = () => {
 
 router.get("/", getUsersList);
 router.get("/:pubid", getUserInfo);
-router.post("/get-user/:pubid", getFullUserData);
+router.post("/get-user/", getFullUserData);
 
 // ADMIN ONLY
 router.post("/new-user", createUser);
