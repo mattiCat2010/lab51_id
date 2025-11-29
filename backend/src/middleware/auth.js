@@ -3,7 +3,7 @@ import { Human } from "../models/human.js";
 export async function authCheck(req, res, next) {
     try {
         if (req.method !== 'GET') {
-            const { token, pubid } = req.body;
+            let { token, pubid } = req.body;
             
             if(!pubid) return res.status(401).json({ message: "Acces Danied: pubid required" }) // fix code here
             if(!token) return res.status(401).json({ message: "Acces Danied: token required" })
@@ -15,9 +15,9 @@ export async function authCheck(req, res, next) {
             })
 
             if (token === user[0].dataValues.tempToken) {
-                req.body.authUser = { // fix code here
-                    authUser: user
-                }
+                req.authUser = user;
+                token = null; // Clear auth data
+                pubid = null;
                 return next();
             }
 
