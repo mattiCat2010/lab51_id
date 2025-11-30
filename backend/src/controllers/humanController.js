@@ -40,17 +40,17 @@ export const getUsersList = async (req, res) => {
 
 export const getFullUserData = async (req, res) => {
     try {
-        const { pubid } = req.authUser[0].dataValues;
+        const { pubid } = req.authUser.dataValues;
         
-        const user = await Human.findAll({
+        const user = await Human.findOne({
             where: {
                 pubid: pubid,
             }
         })
 
-        // console.log(user[0].dataValues.departments.length) // Debug
+        // console.log(user.dataValues.departments.length) // Debug
 
-        if(user) return res.status(200).json(user[0])
+        if(user) return res.status(200).json(user);
         res.status(404).json({ message: "User not found" })
     } catch (error) {
         res.status(500).json({ message: "Internal Server Error" })
@@ -61,7 +61,7 @@ export const getFullUserData = async (req, res) => {
 export const createUser = async (req, res) => {
     try {
         const User = { ...req.body };
-        const authUser = req.authUser[0].dataValues;
+        const authUser = req.authUser.dataValues;
 
         // Primary checks
         if (!authUser) {

@@ -12,17 +12,19 @@ const port = process.env.PORT || 4035
 const app = express();
 
 app.use(express.json())
+
+// DEBUG MIDDLEWARE
+// app.use((req, res, next) => {
+//     // console.log(req.headers)
+//     // console.log(req.body)
+//     // debug()
+//     console.log(req.originalUrl === "/api/login/")
+//     next()
+// })
+
 app.use((req, res, next) => authCheck(req, res, next))
 
-/* DEBUG MIDDLEWARE
-app.use((req, res, next) => {
-    console.log(req.headers)
-    console.log(req.body)
-    debug()
-    next()
-})
-*/
-
+// Routes
 app.use("/api/instruments", instrumentRoutes)
 
 app.use("/api/humans", humanRoutes)
@@ -33,7 +35,12 @@ app.use("/api/projects", projectRoutes)
 
 app.use("/api/storage", storageRoutes)
 
-app.use("/api/auth", authRoutes)
+// app.use(
+//     "/api/login",
+//     (req, res, next) => login(req, res, next)
+// )
+
+app.use("/api/login", authRoutes)
 
 dbConnect().then(
     app.listen(port, () => {

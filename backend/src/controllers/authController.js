@@ -1,0 +1,59 @@
+import bcrypt from 'bcrypt';
+import * as crypto from 'crypto';
+import { Human } from '../models/human.js';
+
+export const login = async (req, res) => {
+    try {
+        const authData = req.body;
+        const tempToken = crypto.randomUUID(); // Generates a new temporary token
+
+        // Validate if 'id' is provided
+        if (!authData.id) return res.status(401).json("Unauthorized: id required for login");
+
+        // Find the user by pubid
+        const user = await Human.findOne({
+            where: {
+                pubid: authData.pubid
+            }
+        });
+        if (!user) return res.status(404).json({ message: `User ${authData.pubid} not found` });
+
+        const { id, pswd } = user.dataValues;
+
+        // If password exists, ensure it is provided
+        if (pswd && !authData.pswd) return res.status(401).json("Unauthorized: Password required for login");
+
+        // Validate id and password
+        const validId = await bcrypt.compare(authData.id, id);
+        const validPswd = await bcrypt.compare(authData.pswd, pswd);
+
+        if (!validId) return res.status(401).json("Unauthorized: invalid id");
+        if (!validPswd) return res.status(401).json("Unauthorized: invalid password");
+
+        // Update user with tempToken and tempTokenCreatedAt
+        await Human.update(
+            { tempToken: tempToken, tempTokenCreatedAt: Date.now() },
+            {
+                where: {
+                    pubid: authData.pubid,
+                },
+            },
+        );
+
+        // Remove sensitive information (id and password) from response
+        let resData = { ...user.dataValues };
+        delete resData.id;
+        delete resData.pswd;
+
+        // Add tempToken and tempTokenCreatedAt to the response
+        resData.tempToken = tempToken;
+        resData.tempTokenCreatedAt = Date.now();
+
+        // Send the response with user data and tempToken
+        return res.status(200).json(resData);
+
+    } catch (error) {
+        console.log("Error during login controller", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+}

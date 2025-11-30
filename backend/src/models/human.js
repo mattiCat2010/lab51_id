@@ -13,7 +13,6 @@ export const Human = sequelize.define(
     },
     id: {
         type: DataTypes.STRING,
-        defaultValue: DataTypes.UUIDV4,
         allowNull: false,
         unique: true
     },
@@ -39,8 +38,12 @@ export const Human = sequelize.define(
         allowNull: false
     },
     tempToken: {
-        type: DataTypes.UUID,
+        type: DataTypes.STRING,
         unique: true
+    },
+    tempTokenCreatedAt: {
+        type: DataTypes.DATE,
+        unique: false
     },
     pswd: {
         type: DataTypes.STRING
