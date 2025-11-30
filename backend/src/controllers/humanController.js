@@ -67,25 +67,25 @@ export const createUser = async (req, res) => {
         if (!authUser) {
             return res.status(500).json({ message: "Authentication context missing." });
         }
-        if (authUser.highestLevel < 3) {
+
+        if (authUser.higestLevel <= 3) {
             return res.status(401).json({ message: "Unauthorized access: Minimum level 3 required to create users." });
         }
-        if (authUser.highestLevel < User.higestLevel) {
-            return res.status(401).json({ message: `Unauthorized: New user level can't be higher than your level (${authUser.highestLevel}).` });
-        }
+
         if (User.higestLevel >= 2 && !User.pswd) {
             return res.status(406).json({ message: "Password required for user level 2 or higher." });
         }
 
-        // if(authUser.higestLevel < 3) return res.status(401).json({ message: "Unauthorized acces" })
-        // if(User.higestLevel >= 2 && !User.pswd) return res.status(406).json({ message: "Password required for level higher than 2" });
+        if (authUser.higestLevel < User.higestLevel) {
+            return res.status(401).json({ message: `Unauthorized: New user level can't be higher than your level (${authUser.higestLevel}).` });
+        }
 
         const id = crypto.randomUUID();
         const hashId = await bcrypt.hash(id, 10);
 
         User.id = hashId;
 
-        const pswd = "";
+        let pswd = "";
 
         if (User.pswd) {
             pswd = User.pswd;
@@ -95,13 +95,16 @@ export const createUser = async (req, res) => {
         const dpArr = User.departments || [];
         const authDpArr = authUser.departments || [];
 
+        // console.log(authDpArr)
+
         // Prepare authUser's department map for easy lookup: { 'name': level }
         const authDpMap = authDpArr.reduce((map, dpString) => {
-            const [name, level] = dpString.split(".");
+            const String = dpString.replace(/^'|'$/g, '');
+            const [name, level] = String.split(".");
             map[name] = Number(level);
             return map;
         }, {});
-        
+
         for (const dpString of dpArr) {
             const [dpName, dpLv] = dpString.split(".");
             const newDpLevel = Number(dpLv);
@@ -113,8 +116,6 @@ export const createUser = async (req, res) => {
 
             const authUserDpLevel = authDpMap[dpName];
 
-            // Check 2: Can the authorized user create a user at this level in this department?
-            // This needs to be strictly lower or equal, AND the auth user must have sufficient level (level > 2)
             if (
                 newDpLevel > authUserDpLevel || // New user level is higher than auth user's level in that department
                 authUserDpLevel < 3             // Auth user's level in this department is too low to assign users
@@ -122,34 +123,6 @@ export const createUser = async (req, res) => {
                  return res.status(401).json({ message: `Unauthorized level: Your level (${authUserDpLevel}) in ${dpName} is insufficient.` });
             }
         }
-
-        // const dpArr = User.departments;
-        // const authDpArr = authUser.departments;
-
-        // let authDpNames = [];
-        // let authDpLv = [];
-
-        // for(let i = 0; i < authDpArr.length; i++){
-        //     const dp = authDpArr[i].split(".");
-        //     authDpLv.push(Number(dp[1]));
-        //     authDpNames.push(dp[0]);
-        // }
-
-        // for(let i = 0; i < dpArr.length; i++){
-        //     const dp = dpArr[i].split(".");
-        //     const dpLv = Number(dp[1]);
-        //     const dpName = dp[0];
-
-        //     if(
-        //         authDpNames.includes(dpName) 
-        //         && dpLv <= authDpLv[authDpNames.findIndex(dpName)] 
-        //         && authDpLv[authDpNames.findIndex(dpName)] > 2
-        //     );
-
-        //     else return res.status(401).json({ message: `Unauthorized department ${dpName}` })
-        // }
-
-        // if(authUser.higestLevel < User.higestLevel) return res.status(401).json({ message: `Unauthorized: newUser level can't be higher than authUser level` })
 
         const fields = [
             'name',

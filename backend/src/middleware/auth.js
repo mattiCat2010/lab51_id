@@ -16,8 +16,8 @@ export async function authCheck(req, res, next) {
 
             if (token === user[0].dataValues.tempToken) {
                 req.authUser = user;
-                token = null; // Clear auth data
-                pubid = null;
+                req.body.token = null; // Clear auth data
+                req.body.pubid = null;
                 return next();
             }
 

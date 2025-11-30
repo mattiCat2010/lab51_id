@@ -12,7 +12,7 @@ export const Human = sequelize.define(
         autoIncrement: true
     },
     id: {
-        type: DataTypes.UUID,
+        type: DataTypes.STRING,
         defaultValue: DataTypes.UUIDV4,
         allowNull: false,
         unique: true
