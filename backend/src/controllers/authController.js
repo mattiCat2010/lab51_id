@@ -20,15 +20,25 @@ export const login = async (req, res) => {
 
         const { id, pswd } = user.dataValues;
 
-        // If password exists, ensure it is provided
-        if (pswd && !authData.pswd) return res.status(401).json({ message: "Unauthorized: Password required for login" });
+        // TODO: check if ai suggested auth fix work
+
+        // DANGER - AI ZONE
+        // // If password exists, ensure it is provided
+        // if (pswd && !authData.pswd) return res.status(401).json({ message: "Unauthorized: Password required for login" }); // NOT AI
 
         // Validate id and password
-        const validId = await bcrypt.compare(authData.id, id);
-        const validPswd = await bcrypt.compare(authData.pswd, pswd);
+        const validId = await bcrypt.compare(authData.id, id); // NOT AI
+        // const validPswd = await bcrypt.compare(authData.pswd, pswd); // NOT AI
 
-        if (!validId) return res.status(401).json({ message: "Unauthorized: invalid id" });
-        if (!validPswd) return res.status(401).json({ message: "Unauthorized: invalid password" });
+        if (!validId) return res.status(401).json({ message: "Unauthorized: invalid id" }); // NOT AI
+         
+        // if (!validPswd) return res.status(401).json({ message: "Unauthorized: invalid password" }); // NOT AI
+        if (pswd) {
+            if (!authData.pswd) return res.status(401).json({ message: "Unauthorized: Password required for login" });
+            const validPswd = await bcrypt.compare(authData.pswd, pswd);
+            if (!validPswd) return res.status(401).json({ message: "Unauthorized: invalid password" });
+        }
+        // END AI ZONE
 
         // Update user with tempToken and tempTokenCreatedAt
         await Human.update(
