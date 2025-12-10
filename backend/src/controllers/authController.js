@@ -8,7 +8,7 @@ export const login = async (req, res) => {
         const tempToken = crypto.randomUUID(); // Generates a new temporary token
 
         // Validate if 'id' is provided
-        if (!authData.id) return res.status(401).json("Unauthorized: id required for login");
+        if (!authData.id) return res.status(401).json({ message: "Unauthorized: id required for login" });
 
         // Find the user by pubid
         const user = await Human.findOne({
@@ -21,14 +21,14 @@ export const login = async (req, res) => {
         const { id, pswd } = user.dataValues;
 
         // If password exists, ensure it is provided
-        if (pswd && !authData.pswd) return res.status(401).json("Unauthorized: Password required for login");
+        if (pswd && !authData.pswd) return res.status(401).json({ message: "Unauthorized: Password required for login" });
 
         // Validate id and password
         const validId = await bcrypt.compare(authData.id, id);
         const validPswd = await bcrypt.compare(authData.pswd, pswd);
 
-        if (!validId) return res.status(401).json("Unauthorized: invalid id");
-        if (!validPswd) return res.status(401).json("Unauthorized: invalid password");
+        if (!validId) return res.status(401).json({ message: "Unauthorized: invalid id" });
+        if (!validPswd) return res.status(401).json({ message: "Unauthorized: invalid password" });
 
         // Update user with tempToken and tempTokenCreatedAt
         await Human.update(

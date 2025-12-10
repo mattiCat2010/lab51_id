@@ -6,7 +6,7 @@ import { Human } from "../models/human.js";
 export const getUserInfo = async (req, res) => {
     try {
         const { pubid } = req.params; 
-        const user = await Human.findAll({
+        const user = await Human.findOne({
             where: {
                 pubid: pubid
             },

@@ -19,7 +19,7 @@ export async function authCheck(req, res, next) {
 
             if (
                 token === user.dataValues.tempToken 
-                // && Date.now() - user.dataValues.tempTokenCreatedAt <= 3600000
+                && Date.now() - user.dataValues.tempTokenCreatedAt <= 3600000
             ) {
                 req.authUser = user;
                 req.body.token = null; // Clear auth data
