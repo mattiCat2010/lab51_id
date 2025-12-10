@@ -23,7 +23,8 @@
   "main": "server.js",
   "scripts": {
     "dev": "nodemon src/server.js",
-    "start": "node src/server.js"
+    "start": "node src/server.js",
+    "sync": "node src/config/sync.js"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
