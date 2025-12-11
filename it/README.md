@@ -16,9 +16,10 @@
 
 ---
 
-> Un'applicazione web full-stack per la gestione dei progetti della community **Lab 51** > [:en: Guida in Inglese](../README.md)
+> Un'applicazione web full-stack per la gestione dei progetti della community **Lab 51** 
+> [:en: Guida in Inglese](../README.md)
 
-### Indice
+## Indice
 
 ## :file_folder: Struttura
   - [Codice Sorgente](/guide/Structure.md#Codebase)
