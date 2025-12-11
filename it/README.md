@@ -16,8 +16,8 @@
 
 ---
 
-> Un'applicazione web full-stack per la gestione dei progetti della community **Lab 51** 
-> [:en: Guida in Inglese](../README.md)
+> Un'applicazione web full-stack per la gestione dei progetti della community **Lab 51**
+> [:gb: Eglish guide](../README.md)
 
 ## Indice
 
