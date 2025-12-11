@@ -20,6 +20,6 @@ Configuration notes for the production frontend container (static serving).
 
 Instructions for compiling the React application into static assets ready for deployment.
 
-## NGNIX
+## NGINX
 
 Configuration of the Nginx container as a reverse proxy, handling SSL termination, static file serving, and API request forwarding to the backend.

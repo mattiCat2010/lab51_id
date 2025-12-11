@@ -4,7 +4,6 @@
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/mattiCat2010/lab51_id)
 ![GitHub last commit](https://img.shields.io/github/last-commit/mattiCat2010/lab51_id)
 
-<!-- Extra badges -->
 ![Repo Size](https://img.shields.io/github/repo-size/mattiCat2010/lab51_id)
 ![Issues](https://img.shields.io/github/issues/mattiCat2010/lab51_id)
 ![Pull Requests](https://img.shields.io/github/issues-pr/mattiCat2010/lab51_id)
@@ -17,60 +16,58 @@
 
 ---
 
-> A full-stack project management web app for the **Lab 51** community  
-> [:it: Guida in Italiano](it/README.md)
+> Un'applicazione web full-stack per la gestione dei progetti della community **Lab 51** > [:en: Guida in Inglese](../README.md)
 
-### index
+### Indice
 
-## :file_folder: Structure
-  - [Codebase](/guide/Structure.md#Codebase)
+## :file_folder: Struttura
+  - [Codice Sorgente](/guide/Structure.md#Codebase)
   - [Backend](/guide/Structure.md#Backend)
   - [Frontend](/guide/Structure.md#Frontend)
-## :floppy_disk: Installation
-  - ### [Dev installation](/guide/dev-installation.md)
+## :floppy_disk: Installazione
+  - ### [Per Sviluppatori](/guide/dev-installation.md)
     - [Database](/guide/dev-installation.md#Database)
     - [Backend](/guide/dev-installation.md#Backend)
     - [Frontend](/guide/dev-installation.md#Frontend)
-  - ### [Production Setup](/guide/production.md)
+  - ### [Configurazione per la Produzione](/guide/production.md)
     - [Database](/guide/production.md#Database)
     - [Backend](/guide/production.md#Backend)
     - [Frontend](/guide/production.md#Frontend)
-    - [Vite build](/guide/production.md#Vite_Build)
+    - [Build Vite](/guide/production.md#Vite_Build)
     - [NGINX](/guide/production.md#NGINX)
-## :book: Documentation
+## :book: Documentazione
   - [Backend](/docs/Documentation.md#Backend)
-  - [API Usage](/docs/Documentation.md#API_Usage)
+  - [Utilizzo delle API](/docs/Documentation.md#API_Usage)
   - [Frontend](/docs/Documentation.md#Frontend)
 
 
 ---
 
-## 🚩 Roadmap
+## 🚩 Mappa di Sviluppo (Roadmap)
 
-### Backend ![State](https://img.shields.io/badge/State-In_Progress-orange)
-- Table models — *in progress*
-- API controllers — *2 weeks*
-- Exposed API testing — *2 weeks*
+### Backend ![State](https://img.shields.io/badge/Stato-In_Corso-orange)
+- Modelli di tabella — *in corso*
+- Controller API — *2 settimane*
+- Test con API pubblica — *2 settimane*
 
-### Frontend ![State](https://img.shields.io/badge/State-Coming_Soon-blue)
+### Frontend ![State](https://img.shields.io/badge/Stato-In_Arrivo-blue)
 
-### Infrastructure & Security
-- RLS & database security — *2 months*
-- Docker release — *3 months*
-- Server setup — *3–4 months*
-- Server security — *3–4 months*
-- Automatic server updates — *3–4 months*
-- Automatic PostgreSQL backups — *3–4 months*
-- Beta release *(public IP)* — *4 months*
-- Remote PostgreSQL & user-data backup — *1–2 years*
-- Final release *(domain name)* — *1–2 years*
+### Infrastruttura e Sicurezza
+- RLS e sicurezza database — *2 mesi*
+- Rilascio su Docker — *3 mesi*
+- Configurazione server — *3–4 mesi*
+- Sicurezza server — *3–4 mesi*
+- Aggiornamenti automatici server — *3–4 mesi*
+- Backup automatici PostgreSQL — *3–4 mesi*
+- Rilascio Beta *(IP pubblico)* — *4 mesi*
+- Backup remoto di PostgreSQL e dati utente — *1–2 anni*
+- Rilascio Finale *(Nome di Dominio)* — *1–2 anni*
 
 ---
 
-## 📬 Contacts
+## 📬 Contatti
 
-You can contact me at:
+Puoi contattarmi a:
 
-📧 **mattiz10b@gmail.com**  
+📧 **mattiz10b@gmail.com** 
 📧 **lab51servizioclienti@gmail.com**
-
