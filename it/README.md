@@ -16,7 +16,7 @@
 
 ---
 
-> Un'applicazione web full-stack per la gestione dei progetti della community **Lab 51**
+> Un'applicazione web full-stack per la gestione dei progetti della community **Lab 51**  
 > [:gb: Eglish guide](../README.md)
 
 ## Indice
@@ -70,5 +70,5 @@
 
 Puoi contattarmi a:
 
-📧 **mattiz10b@gmail.com** 
+📧 **mattiz10b@gmail.com**  
 📧 **lab51servizioclienti@gmail.com**
