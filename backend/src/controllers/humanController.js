@@ -178,16 +178,18 @@ export const createUser = async (req, res) => {
 
 export const updateUserInfo = async (req, res) => {
     try {
-
+        return res.status(501).json({ message: "Not implemented" });
     } catch (error) {
-
+        res.status(500).json({ message: "Internal Server Error" });
+        console.log("Error in updateUserInfo: ", error);
     }
 }
 
 export const deleteUser = async (req, res) => {
     try {
-
+        return res.status(501).json({ message: "Not implemented" });
     } catch (error) {
-
+        res.status(500).json({ message: "Internal Server Error" });
+        console.log("Error in deleteUser: ", error);
     }
 }
