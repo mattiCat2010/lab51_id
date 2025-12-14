@@ -29,9 +29,9 @@ export const Human = sequelize.define(
         allowNull: false,
         unique: true
     },
-    higestLevel: {
+    highestLevel: {
         type: DataTypes.INTEGER,
-        allowNull: false
+        allowNull: false,
     },
     departments: {
         type: DataTypes.ARRAY(DataTypes.STRING),

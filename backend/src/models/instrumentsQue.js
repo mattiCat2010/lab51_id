@@ -29,7 +29,7 @@ export const InstrumentQue = sequelize.define(
     //     allowNull: false,
     //     unique: true
     // },
-    // higestLevel: {
+    // highestLevel: {
     //     type: DataTypes.INTEGER,
     //     allowNull: false
     // },

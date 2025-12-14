@@ -4,50 +4,41 @@ import { sequelize } from '../config/db.js';
 export const Material = sequelize.define(
   'material',
   {
-    // pubid: {
-    //     type: DataTypes.INTEGER,
-    //     allowNull: false,
-    //     unique: true,
-    //     primaryKey: true,
-    //     autoIncrement: true
+    id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      unique: true,
+      primaryKey: true,
+      autoIncrement: true
+    },
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    inStock: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 0,
+    },
+    shopLink: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    materialData: {
+      type: DataTypes.TEXT,
+      allowNull: true
+    },
+    datasheetLink: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    // location: {
+    //   // storage location id, future implementation
     // },
-    // id: {
-    //     type: DataTypes.STRING,
-    //     allowNull: false,
-    //     unique: true
-    // },
-    // name: {
-    //     type: DataTypes.TEXT,
-    //     allowNull: false
-    // },
-    // surname: {
-    //     type: DataTypes.TEXT,
-    //     allowNull: false
-    // },
-    // email: {
-    //     type: DataTypes.TEXT,
-    //     allowNull: false,
-    //     unique: true
-    // },
-    // higestLevel: {
-    //     type: DataTypes.INTEGER,
-    //     allowNull: false
-    // },
-    // departments: {
-    //     type: DataTypes.ARRAY(DataTypes.STRING),
-    //     allowNull: false
-    // },
-    // tempToken: {
-    //     type: DataTypes.STRING,
-    //     unique: true
-    // },
-    // tempTokenCreatedAt: {
-    //     type: DataTypes.DATE,
-    //     unique: false
-    // },
-    // pswd: {
-    //     type: DataTypes.STRING
-    // }
+    requiredLevel: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    }
   },
   {
     tableName: "Material",
