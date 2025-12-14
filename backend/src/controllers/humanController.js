@@ -2,6 +2,7 @@ import * as crypto from 'crypto';
 import bcrypt from 'bcrypt';
 import { Human } from "../models/human.js";
 import { checkDepartments } from '../utils/checkDepartments.js';
+import { isMemberManaged } from '../utils/isMemberManaged.js';
 import { updateUser } from '../utils/updateUser.js';
 // import { Op } from "sequelize";
 
@@ -190,25 +191,28 @@ export const updateUserInfo = async (req, res) => {
             return res.status(500).json({ message: "Authentication context missing." });
         }
 
+        if (!User.targetId) {
+            return res.status(403).json({ message: "targetId is required to update a user." });
+        }
+
         if (authUser.pubid != User.targetId) {
             // Verify if user is Admin
             if (authUser.highestLevel < 3) {
                 return res.status(403).json({ message: "Forbidden: Minimum level 3 required to update users." });
             }
 
-            const user = { dataValues } = await Human.findOne({
-                where: {
-                    pubid: targetId,
-                },
-                fields: ["departments", "highestLevel"]
+            const user = await Human.findOne({
+                where: { pubid: User.targetId },
+                attributes: ["departments", "highestLevel"]
             })
 
             if (!user) {
                 return res.status(404).json({ message: "Target user not found." });
             }
 
-            // check if the target user is under my department
-            let authResult = checkDepartments(user.departments, authUser.departments);
+            // check if the target user is a member of at least one department
+            // where the authenticated user is a manager (level >= 3)
+            let authResult = isMemberManaged(user.dataValues.departments, authUser.departments);
             if (authResult.error) {
                 return res.status(authResult.status).json({ message: authResult.message });
             }
@@ -219,7 +223,29 @@ export const updateUserInfo = async (req, res) => {
                 if (authResult.error) {
                     return res.status(authResult.status).json({ message: authResult.message });
                 }
-                newUser.departments = User.newDepartments;
+
+                // Merge departments: only change what's different (add/update entries)
+                // Keep existing departments that are not mentioned in newDepartments
+                const currentDeps = user.dataValues.departments || [];
+                const depMap = currentDeps.reduce((m, s) => {
+                    const [n, lv] = String(s).split('.');
+                    m[n] = Number(lv);
+                    return m;
+                }, {});
+
+                for (const s of User.newDepartments) {
+                    const [n, lv] = String(s).split('.');
+                    const level = Number(lv);
+                    if (Number.isNaN(level)) continue; // ignore malformed entries
+                    // level 0 means remove department
+                    if (level === 0) {
+                        delete depMap[n];
+                    } else {
+                        depMap[n] = level;
+                    }
+                }
+
+                newUser.departments = Object.entries(depMap).map(([n, lv]) => `${n}.${lv}`);
             }
 
             // check if newHighestLevel is valid and assign it to newUser for the update
@@ -235,7 +261,7 @@ export const updateUserInfo = async (req, res) => {
             if (updatedUser.error) {
                 return res.status(500).json({ message: "Failed to update user." });
             }
-            return res.status(200).json(updatedUser);
+            return res.status(200).json({ message: "User updated successfully", data: updatedUser.dataValues });
         } else {
             // fill newUser with requests info 
             if(User.newName) newUser.name = User.newName;
@@ -248,10 +274,14 @@ export const updateUserInfo = async (req, res) => {
             }
             if(User.newSurname) newUser.surname = User.newSurname;
             if(User.newPswd) newUser.pswd = await bcrypt.hash(User.newPswd, 10);
+            if (User.newDepartments) {
+                // Users cannot change their own departments. Require elevated privilege.
+                return res.status(403).json({ message: 'Forbidden: You cannot change your own departments.' });
+            }
 
             try {
                 const updatedUser = await updateUser(User.targetId, newUser, ["name", "surname", "email", "pswd"]);
-                return res.status(200).json({ message: "User updated successfully", data: updatedUser });
+                return res.status(200).json({ message: "User updated successfully", data: updatedUser.dataValues });
             } catch (error) {
                 console.log("Failed to update user:", error);
                 return res.status(500).json({ message: "Failed to update user." });

@@ -15,7 +15,7 @@ router.post("/get-user/", getFullUserData);
 
 // ADMIN ONLY
 router.post("/new-user", createUser);
-router.put("/:pubid", updateUserInfo); // USER can update their own data
+router.put("/", updateUserInfo); // USER can update their own data
 router.delete("/:id", deleteUser); // USER can delete their own data
 
 export default router;

@@ -2,7 +2,7 @@ import { Human } from '../models/human.js';
 
 export async function updateUser(targetId, newUser, fields) {
     let response = {};
-    
+
     try {
         const updatedUser = await Human.update(newUser, {
             where: {
@@ -10,8 +10,13 @@ export async function updateUser(targetId, newUser, fields) {
             },
         },
             { fields: fields }
-        )   
-        response = updatedUser;
+        )
+
+        response = await Human.findOne({
+            where: {
+                pubid: targetId,
+            }
+        })
         return response;
 
     } catch (error) {
