@@ -1,6 +1,8 @@
 import * as crypto from 'crypto';
 import bcrypt from 'bcrypt';
 import { Human } from "../models/human.js";
+import { checkDepartments } from '../utils/checkDepartments.js';
+import { updateUser } from '../utils/updateUser.js';
 // import { Op } from "sequelize";
 
 export const getUserInfo = async (req, res) => {
@@ -124,33 +126,9 @@ export const createUser = async (req, res) => {
         const dpArr = User.departments || [];
         const authDpArr = authUser.departments || [];
 
-        // console.log(authDpArr)
-
-        // Prepare authUser's department map for easy lookup: { 'name': level }
-        const authDpMap = authDpArr.reduce((map, dpString) => {
-            const String = dpString.replace(/^'|'$/g, '');
-            const [name, level] = String.split(".");
-            map[name] = Number(level);
-            return map;
-        }, {});
-
-        for (const dpString of dpArr) {
-            const [dpName, dpLv] = dpString.split(".");
-            const newDpLevel = Number(dpLv);
-
-            // Check 1: Does the authorized user manage this department?
-            if (!authDpMap.hasOwnProperty(dpName)) {
-                return res.status(401).json({ message: `Unauthorized department: You do not manage ${dpName}.` });
-            }
-
-            const authUserDpLevel = authDpMap[dpName];
-
-            if (
-                newDpLevel > authUserDpLevel || // New user level is higher than auth user's level in that department
-                authUserDpLevel < 3             // Auth user's level in this department is too low to assign users
-            ) {
-                return res.status(401).json({ message: `Unauthorized level: Your level (${authUserDpLevel}) in ${dpName} is insufficient.` });
-            }
+        const authResult = checkDepartments(dpArr, authDpArr);
+        if (authResult.error) {
+            return res.status(authResult.status).json({ message: authResult.message });
         }
 
         const fields = [
@@ -177,8 +155,108 @@ export const createUser = async (req, res) => {
 }
 
 export const updateUserInfo = async (req, res) => {
+
+    /*
+        This controller manages the routes to update a user in the human table
+        The rules to make changes to a user are generally these:
+                - A user can edit their own data without restriction except for the highestLevel
+                    and departments properties which can only be changed by another user of higher level
+                - A user can change another user's highestLevel or departments if he/she is a department manager or higher
+                    and if the departments is a department he/she manages
+                - NO ONE can edit system critical information (pubid, token, token creation date, id)
+                        in special case an admin (level 4) can change, disable, remove the private id
+                        (for example if a user loses his keycard and the id might be stolen)
+        There are a few conventions about the request format:
+                - First the fields regarding the user to change must be preceded with "target":
+
+                        departments ==> targetDepartments
+
+                        PS for purely aesthetic reasons "pubid" becomes "targetId" and not "targetPubId"
+
+                - Second all the fields to update must be preceded with "new" ("new"+"Param"):
+
+                        name ==> newName
+    */
+
+
+
     try {
-        return res.status(501).json({ message: "Not implemented" });
+        const User = { ...req.body };
+        const authUser = req.authUser.dataValues;
+        let newUser = {};
+
+        // Primary checks
+        if (!authUser) {
+            return res.status(500).json({ message: "Authentication context missing." });
+        }
+
+        if (authUser.pubid != User.targetId) {
+            // Verify if user is Admin
+            if (authUser.highestLevel < 3) {
+                return res.status(403).json({ message: "Forbidden: Minimum level 3 required to update users." });
+            }
+
+            const user = { dataValues } = await Human.findOne({
+                where: {
+                    pubid: targetId,
+                },
+                fields: ["departments", "highestLevel"]
+            })
+
+            if (!user) {
+                return res.status(404).json({ message: "Target user not found." });
+            }
+
+            // check if the target user is under my department
+            let authResult = checkDepartments(user.departments, authUser.departments);
+            if (authResult.error) {
+                return res.status(authResult.status).json({ message: authResult.message });
+            }
+
+            // check if the changes in the target user are valid for my dp
+            if (User.newDepartments) {
+                authResult = checkDepartments(User.newDepartments, authUser.departments);
+                if (authResult.error) {
+                    return res.status(authResult.status).json({ message: authResult.message });
+                }
+                newUser.departments = User.newDepartments;
+            }
+
+            // check if newHighestLevel is valid and assign it to newUser for the update
+            if (User.newHighestLevel) {
+                if (User.newHighestLevel > authUser.highestLevel) {
+                    return res.status(401).json({ message: `Unauthorized: New user level can't be higher than your level (${authUser.highestLevel}).` });
+                }
+                newUser.highestLevel = User.newHighestLevel;
+            }
+
+            const updatedUser = await updateUser(User.targetId, newUser, ["highestLevel", "departments"]);
+
+            if (updatedUser.error) {
+                return res.status(500).json({ message: "Failed to update user." });
+            }
+            return res.status(200).json(updatedUser);
+        } else {
+            // fill newUser with requests info 
+            if(User.newName) newUser.name = User.newName;
+            if(User.newEmail) {
+                let regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                if (!regex.test(User.newEmail)) {
+                    return res.status(422).json({ message: "Invalid email" });
+                }
+                newUser.email = User.newEmail;
+            }
+            if(User.newSurname) newUser.surname = User.newSurname;
+            if(User.newPswd) newUser.pswd = await bcrypt.hash(User.newPswd, 10);
+
+            try {
+                const updatedUser = await updateUser(User.targetId, newUser, ["name", "surname", "email", "pswd"]);
+                return res.status(200).json({ message: "User updated successfully", data: updatedUser });
+            } catch (error) {
+                console.log("Failed to update user:", error);
+                return res.status(500).json({ message: "Failed to update user." });
+            }
+        }
     } catch (error) {
         res.status(500).json({ message: "Internal Server Error" });
         console.log("Error in updateUserInfo: ", error);
