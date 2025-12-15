@@ -47,9 +47,11 @@
 ## 🚩 Mappa di Sviluppo (Roadmap)
 
 ### Backend ![State](https://img.shields.io/badge/Stato-In_Corso-orange)
-- Modelli di tabella — *in corso*
-- Controller API — *2 settimane*
-- Test con API pubblica — *2 settimane*
+- Controller della tabella Human — *in corso*
+- Modelli delle tabelle — *2 settimane*
+- Sistema di archiviazione file — *2–3 settimane*
+- Controller API — *1 mese*
+- Test E2E API pubblica (port forwarding) — *1 mese*
 
 ### Frontend ![State](https://img.shields.io/badge/Stato-In_Arrivo-blue)
 
