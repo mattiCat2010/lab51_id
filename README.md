@@ -48,7 +48,7 @@
 ## 🚩 Roadmap
 
 ### Backend ![State](https://img.shields.io/badge/State-In_Progress-orange)
-- Table models — *in progress*
+- Human table controllers — *in progress*
 - Table models — *2 weeks*
 - File storage — *2-3 weeks*
 - API controllers — *1 month*
