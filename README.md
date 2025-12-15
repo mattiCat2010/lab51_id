@@ -49,8 +49,10 @@
 
 ### Backend ![State](https://img.shields.io/badge/State-In_Progress-orange)
 - Table models — *in progress*
-- API controllers — *2 weeks*
-- Exposed API testing — *2 weeks*
+- Table models — *2 weeks*
+- File storage — *2-3 weeks*
+- API controllers — *1 month*
+- Exposed API testing — *1 month*
 
 ### Frontend ![State](https://img.shields.io/badge/State-Coming_Soon-blue)
 
