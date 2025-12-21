@@ -53,6 +53,7 @@
 - File storage — *2-3 weeks*
 - API controllers — *1 month*
 - Public API E2E testing (port forwarding) — *1 month*
+- Server logging with Grafana
 
 ### Frontend ![State](https://img.shields.io/badge/State-Coming_Soon-blue)
 
