@@ -60,7 +60,11 @@ export const login = async (req, res) => {
         resData.tempTokenCreatedAt = Date.now();
 
         // Send the response with user data and tempToken
-        return res.status(200).json(resData);
+        return res.status(200).json(
+            await bcrypt.compare("changeMe", pswd)
+            ? { message: "WARNING: you are using the default password, for security reasons you should change it", user: resData} 
+            : { user: resData }
+        );
 
     } catch (error) {
         console.log("Error during login controller", error);

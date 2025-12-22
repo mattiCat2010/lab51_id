@@ -148,7 +148,7 @@ export const createUser = async (req, res) => {
         userResponse.pswd = pswd;
         userResponse.id = id;
 
-        res.status(200).json(userResponse)
+        res.status(201).json({ message: "User created succesfully", user: userResponse})
     } catch (error) {
         res.status(500).json({ message: "internal server error" })
         console.log("Error in createUser controller", error)
