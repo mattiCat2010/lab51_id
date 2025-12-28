@@ -9,6 +9,7 @@ import { updateUser } from '../utils/updateUser.js';
 export const getUserInfo = async (req, res) => {
     try {
         const { pubid } = req.params;
+        if(isNaN(pubid)) return res.status(400).json({ message: "Malformed Request: " + pubid + " is not a valid id" })
         const user = await Human.findOne({
             where: {
                 pubid: pubid
