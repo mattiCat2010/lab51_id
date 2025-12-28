@@ -1,0 +1,237 @@
+* {
+    box-sizing: border-box
+}
+
+body {
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, 'Helvetica Neue', Arial;
+    line-height: 1.4;
+    color: #222;
+    margin: 0;
+    padding: 0;
+    background: #f6f8fa
+}
+
+header {
+    padding: 20px;
+    background: #0b5cff;
+    color: #fff
+}
+
+header h1 {
+    margin: 0;
+    font-size: 20px
+}
+
+header p {
+    margin: 6px 0 0
+}
+
+main {
+    padding: 20px;
+    max-width: 1000px;
+    margin: 20px auto
+}
+
+.box {
+    background: #fff;
+    padding: 18px;
+    border-radius: 8px;
+    margin-bottom: 18px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .06)
+}
+
+.muted {
+    color: #c4d0e7
+}
+
+.muted-dark {
+    color: #4f535c
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px
+}
+
+.small-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 10px;
+}
+
+label {
+    display: block;
+    font-size: 13px;
+    color: #374151
+}
+
+input,
+textarea,
+select {
+    width: 100%;
+    padding: 8px;
+    margin-top: 6px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px
+}
+
+input[readonly] {
+    background: #f3f4f6
+}
+
+.actions {
+    margin-top: 10px
+}
+
+.actions button {
+    background: #0b5cff;
+    color: #fff;
+    border: 0;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer
+}
+
+/* 
+.danger {
+    margin-top: 10px
+}
+*/
+.danger button {
+    background: #ff0b0b;
+    color: #fff;
+    border: 0;
+    margin-top: 6px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer
+}
+
+.actions button:hover {
+    opacity: .95
+}
+
+.inline {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-top: 8px
+}
+
+.inline.small {
+    font-size: 13px
+}
+
+.departments {
+    margin-top: 10px
+}
+
+#newDepsList,
+#updateDepsList {
+    min-height: 36px;
+    border: 1px dashed #e5e7eb;
+    padding: 8px;
+    border-radius: 6px;
+    background: #fafafa
+}
+
+.dep-item {
+    display: inline-flex;
+    gap: 8px;
+    padding: 6px 8px;
+    border-radius: 6px;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    margin: 6px
+}
+
+.dep-item button {
+    background: transparent;
+    border: 0;
+    color: #ef4444;
+    cursor: pointer
+}
+
+pre {
+    background: #0f1724;
+    color: #e6eef8;
+    padding: 12px;
+    border-radius: 8px;
+    overflow: auto;
+    max-height: 400px
+}
+
+#responseStatus {
+    margin-bottom: 10px;
+    font-weight: 600
+}
+
+.mini-response {
+    margin-top: 10px
+}
+
+.mini-response pre {
+    max-height: 200px
+}
+
+footer {
+    padding: 20px;
+    text-align: center;
+    color: #6b7280
+}
+
+small code {
+    background: #eef2ff;
+    padding: 4px;
+    border-radius: 4px
+}
+
+#responseStatus {
+    margin-bottom: 10px;
+    font-weight: 600
+}
+
+/* allert style */
+
+/* The alert message box */
+.alert {
+    padding: 20px;
+
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    background-color: rgba(255, 99, 0, 0.53);
+    
+    box-shadow: -4px 0px 142px 16px rgba(0, 0, 0, 0.45);
+    -webkit-box-shadow: -4px 0px 142px 16px rgba(0, 0, 0, 0.45);
+    -moz-box-shadow: -4px 0px 142px 16px rgba(0, 0, 0, 0.45);
+    
+    border: 1px solid rgb(252, 234, 202);
+    border-radius: 10px;
+    color: rgb(110, 85, 39);
+
+    width: 500px;
+
+    position: absolute;
+    top: 50vh;
+    left: 25%;
+    width: 50%;
+}
+
+/* The close button */
+.closebtn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* When moving the mouse over the close button */
+.closebtn:hover {
+    color: black;
+}

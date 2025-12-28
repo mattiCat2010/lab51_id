@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lab51 API Tester</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <div class="alert">
+        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+        <strong>⚠️ Notice:</strong> This API tester was generated with AI assistance. We chose to use AI to create this development tool because it is not a critical part of the project's core functionality. This allowed us to quickly generate a useful testing interface without impacting the quality of the main codebase.
+    </div>
+
+    <header>
+        <h1>Lab51 API Tester</h1>
+        <p class="muted">A simple UI to test the backend API without writing JSON. Set <strong>Base URL</strong> and
+            login first.</p>
+    </header>
+
+    <main>
+        <section class="box">
+            <label>Base API URL
+                <input id="baseUrl" value="http://localhost:4035/api" />
+            </label>
+            <div class="small-grid">
+                <div>
+                    <label>Saved pubid
+                        <input id="savedPubid" readonly />
+                    </label>
+                </div>
+                <div>
+                    <label>Saved token
+                        <input id="savedToken" readonly />
+                    </label>
+                </div>
+                <div class="danger">
+                    <label>Danger <br>
+                        <button id="clearAuth">Clear Auth</button>
+                    </label>
+                </div>
+            </div>
+        </section>
+
+        <section class="box">
+            <h2>Login</h2>
+            <p class="muted-dark">Login to obtain a temporary token (saved for convenience).</p>
+            <div class="form-grid">
+                <label>pubid<input id="loginPubid" /></label>
+                <label>id (private id)<input id="loginId" /></label>
+                <label>password (if required)<input id="loginPswd" /></label>
+            </div>
+            <div class="actions">
+                <button id="btnLogin">Login</button>
+            </div>
+            <div class="mini-response" id="loginResponse">
+                <div id="loginResponseStatus" class="muted-dark"></div>
+                <pre id="loginResponseBody">{ }</pre>
+            </div>
+        </section>
+
+        <section class="box">
+            <h2>Create User</h2>
+            <div class="form-grid">
+                <label>Name<input id="newName" /></label>
+                <label>Surname<input id="newSurname" /></label>
+                <label>Email<input id="newEmail" /></label>
+                <label>Password<input id="newPswd" /></label>
+                <label>Highest Level<input id="newHighestLevel" type="number" min="1" max="4" value="1" /></label>
+            </div>
+            <div class="departments">
+                <label>Departments (format: dept.level)</label>
+                <div id="newDepsList"></div>
+                <div class="inline">
+                    <input id="addDepInput" placeholder="e.g. chemistry.2" />
+                    <button id="addDep">Add</button>
+                </div>
+            </div>
+            <div class="actions">
+                <button id="btnCreateUser">Create User</button>
+            </div>
+            <div class="mini-response" id="createResponse">
+                <div id="createResponseStatus" class="muted-dark"></div>
+                <pre id="createResponseBody">{ }</pre>
+            </div>
+        </section>
+
+        <section class="box">
+            <h2>Update User</h2>
+            <p class="muted-dark">Update a target user. Manager/admin can update other users.</p>
+            <div class="form-grid">
+                <label>Target pubid<input id="updateTargetId" /></label>
+                <label>New name<input id="updateName" /></label>
+                <label>New surname<input id="updateSurname" /></label>
+                <label>New email<input id="updateEmail" /></label>
+                <label>New password<input id="updatePswd" /></label>
+            </div>
+            <div class="departments">
+                <label>New Departments (add/update/remove with 0):</label>
+                <div id="updateDepsList"></div>
+                <div class="inline">
+                    <input id="addUpdateDepInput" placeholder="e.g. chemistry.3 or chemistry.0" />
+                    <button id="addUpdateDep">Add</button>
+                </div>
+            </div>
+            <div class="actions">
+                <button id="btnUpdateUser">Update User</button>
+            </div>
+            <div class="mini-response" id="updateResponse">
+                <div id="updateResponseStatus" class="muted-dark"></div>
+                <pre id="updateResponseBody">{ }</pre>
+            </div>
+        </section>
+
+        <section class="box">
+            <h2>Get User</h2>
+            <div class="form-grid">
+                <label>pubid<input id="getPubid" /></label>
+            </div>
+            <div class="actions">
+                <button id="btnGetUser">Get Summary</button>
+                <button id="btnGetFullUser">Get Full (auth required)</button>
+                <button id="btnGetUsersList">Get Users List</button>
+            </div>
+            <div class="mini-response" id="getResponse">
+                <div id="getResponseStatus" class="muted-dark"></div>
+                <pre id="getResponseBody">{ }</pre>
+            </div>
+        </section>
+
+        <section class="box">
+            <h2>Raw Request</h2>
+            <div class="form-grid">
+                <label>Method
+                    <select id="rawMethod">
+                        <option>GET</option>
+                        <option>POST</option>
+                        <option>PUT</option>
+                        <option>DELETE</option>
+                    </select>
+                </label>
+                <label>Endpoint (relative to base)
+                    <input id="rawEndpoint" placeholder="/humans/new-user" />
+                </label>
+            </div>
+            <label>JSON Body</label>
+            <textarea id="rawBody" rows="6" placeholder='{"foo":"bar"}'></textarea>
+            <div class="inline small">
+                <label><input id="autoAuth" type="checkbox" checked /> Auto include saved auth in body</label>
+            </div>
+            <div class="actions">
+                <button id="btnSendRaw">Send</button>
+            </div>
+            <div class="mini-response" id="rawResponse">
+                <div id="rawResponseStatus" class="muted-dark"></div>
+                <pre id="rawResponseBody">{ }</pre>
+            </div>
+        </section>
+
+
+    </main>
+
+    <footer>
+        <small class="muted">Open /api-tester after running the backend:
+            <code>http://localhost:4035/api-tester/</code></small>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
